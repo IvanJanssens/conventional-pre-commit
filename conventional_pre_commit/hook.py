@@ -60,6 +60,9 @@ See {Colors.LBLUE}https://git-scm.com/docs/git-commit/#_discussion{Colors.RESTOR
     if format.is_conventional(message, args.prefix, args.types, args.optional_scope):
         return RESULT_SUCCESS
     else:
+        print({" ".join(args.prefix)})
+        print({" ".join(args.types)})
+        print({" ".join(format.conventional_types(args.prefix, args.types))})
         print(
             f"""
         {Colors.LRED}[Bad Commit message] >>{Colors.RESTORE} {message}
