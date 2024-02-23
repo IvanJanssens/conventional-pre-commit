@@ -18,6 +18,7 @@ def main(argv=[]):
     parser = argparse.ArgumentParser(
         prog="conventional-pre-commit", description="Check a git commit message for Conventional Commits formatting."
     )
+    parser.add_argument("prefix", type=str, help="Prefix")
     parser.add_argument("types", type=str, nargs="*", default=format.DEFAULT_TYPES, help="Optional list of types to support")
     parser.add_argument("input", type=str, help="A file containing a git commit message")
     parser.add_argument(
@@ -56,7 +57,7 @@ See {Colors.LBLUE}https://git-scm.com/docs/git-commit/#_discussion{Colors.RESTOR
         if format.has_autosquash_prefix(message):
             return RESULT_SUCCESS
 
-    if format.is_conventional(message, args.types, args.optional_scope):
+    if format.is_conventional(message, args.prefix, args.types, args.optional_scope):
         return RESULT_SUCCESS
     else:
         print(
@@ -68,23 +69,23 @@ See {Colors.LBLUE}https://git-scm.com/docs/git-commit/#_discussion{Colors.RESTOR
         Conventional Commits start with one of the below types, followed by a colon,
         followed by the commit subject and an optional body seperated by a blank line:{Colors.RESTORE}
 
-            {" ".join(format.conventional_types(args.types))}
+            {" ".join(format.conventional_types(args.prefix, args.types))}
 
         {Colors.YELLOW}Example commit message adding a feature:{Colors.RESTORE}
 
-            feat: implement new API
+            {args.prefix} + feat: implement new API
 
         {Colors.YELLOW}Example commit message fixing an issue:{Colors.RESTORE}
 
-            fix: remove infinite loop
+            {args.prefix} + fix: remove infinite loop
 
         {Colors.YELLOW}Example commit with scope in parentheses after the type for more context:{Colors.RESTORE}
 
-            fix(account): remove infinite loop
+            {args.prefix} + fix(account): remove infinite loop
 
         {Colors.YELLOW}Example commit with a body:{Colors.RESTORE}
 
-            fix: remove infinite loop
+            {args.prefix} + fix: remove infinite loop
 
             Additional information on the issue caused by the infinite loop
             """
