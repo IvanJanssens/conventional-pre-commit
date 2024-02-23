@@ -57,7 +57,7 @@ See {Colors.LBLUE}https://git-scm.com/docs/git-commit/#_discussion{Colors.RESTOR
         if format.has_autosquash_prefix(message):
             return RESULT_SUCCESS
 
-    if format.is_conventional(message, args.types, args.prefix, args.optional_scope):
+    if format.is_conventional(message, args.prefix, args.types, args.optional_scope):
         return RESULT_SUCCESS
     else:
         print(
@@ -69,7 +69,7 @@ See {Colors.LBLUE}https://git-scm.com/docs/git-commit/#_discussion{Colors.RESTOR
         Conventional Commits start with one of the below types, followed by a colon,
         followed by the commit subject and an optional body seperated by a blank line:{Colors.RESTORE}
 
-            {" ".join(format.conventional_types(args.types))}
+            {" ".join(format.conventional_types(args.prefix, args.types))}
 
         {Colors.YELLOW}Example commit message adding a feature:{Colors.RESTORE}
 

@@ -21,12 +21,9 @@ AUTOSQUASH_PREFIXES = [
 ]
 
 
-def r_types(types, prefix):
+def r_types(types):
     """Join types with pipe "|" to form regex ORs."""
-    res = types
-    if prefix:
-        res = [prefixItem + " " + typeItem for typeItem in types for prefixItem in prefix]
-    return "|".join(res)
+    return "|".join(types)
 
 
 def r_scope(optional=True):
@@ -66,14 +63,17 @@ def strip_comments(input):
     return re.sub(r_comment(), "", input, flags=re.MULTILINE)
 
 
-def conventional_types(types=[]):
+def conventional_types(prefix, types=[]):
     """Return a list of Conventional Commits types merged with the given types."""
+    combined = types
     if set(types) & set(CONVENTIONAL_TYPES) == set():
-        return CONVENTIONAL_TYPES + types
-    return types
+        combined = CONVENTIONAL_TYPES + types
+    if prefix:
+        return [prefixItem + " " + typeItem for typeItem in combined for prefixItem in prefix]
+    return combined
 
 
-def is_conventional(input, types=DEFAULT_TYPES, prefix, optional_scope=True):
+def is_conventional(input, prefix, types=DEFAULT_TYPES, optional_scope=True):
     """
     Returns True if input matches Conventional Commits formatting
     https://www.conventionalcommits.org
@@ -81,8 +81,8 @@ def is_conventional(input, types=DEFAULT_TYPES, prefix, optional_scope=True):
     Optionally provide a list of additional custom types.
     """
     input = strip_comments(input)
-    types = conventional_types(types)
-    pattern = f"^({r_types(types, prefix)}){r_scope(optional_scope)}{r_delim()}{r_subject()}{r_body()}"
+    types = conventional_types(prefix, types)
+    pattern = f"^({r_types(types)}){r_scope(optional_scope)}{r_delim()}{r_subject()}{r_body()}"
     regex = re.compile(pattern, re.MULTILINE)
 
     result = regex.match(input)
