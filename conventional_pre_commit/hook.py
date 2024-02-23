@@ -73,19 +73,19 @@ See {Colors.LBLUE}https://git-scm.com/docs/git-commit/#_discussion{Colors.RESTOR
 
         {Colors.YELLOW}Example commit message adding a feature:{Colors.RESTORE}
 
-            {args.prefix} + feat: implement new API
+            {args.prefix} feat: implement new API
 
         {Colors.YELLOW}Example commit message fixing an issue:{Colors.RESTORE}
 
-            {args.prefix} + fix: remove infinite loop
+            {args.prefix} fix: remove infinite loop
 
         {Colors.YELLOW}Example commit with scope in parentheses after the type for more context:{Colors.RESTORE}
 
-            {args.prefix} + fix(account): remove infinite loop
+            {args.prefix} fix(account): remove infinite loop
 
         {Colors.YELLOW}Example commit with a body:{Colors.RESTORE}
 
-            {args.prefix} + fix: remove infinite loop
+            {args.prefix} fix: remove infinite loop
 
             Additional information on the issue caused by the infinite loop
             """
