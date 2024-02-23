@@ -69,7 +69,7 @@ def conventional_types(prefix, types=[]):
     if set(types) & set(CONVENTIONAL_TYPES) == set():
         combined = CONVENTIONAL_TYPES + types
     if prefix:
-        return [prefixItem + " " + typeItem for typeItem in combined for prefixItem in prefix]
+        return [prefix + " " + typeItem for typeItem in combined]
     return combined
 
 

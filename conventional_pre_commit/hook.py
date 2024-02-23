@@ -18,6 +18,7 @@ def main(argv=[]):
     parser = argparse.ArgumentParser(
         prog="conventional-pre-commit", description="Check a git commit message for Conventional Commits formatting."
     )
+    parser.add_argument("prefix", type=str, help="Optional list of prefixes")
     parser.add_argument("types", type=str, nargs="*", default=format.DEFAULT_TYPES, help="Optional list of types to support")
     parser.add_argument("input", type=str, help="A file containing a git commit message")
     parser.add_argument(
@@ -28,7 +29,6 @@ def main(argv=[]):
         action="store_true",
         help="Force commit to strictly follow Conventional Commits formatting. Disallows fixup! style commits.",
     )
-    parser.add_argument("--prefix", type=str, nargs="*", help="Optional list of prefixes")
 
     if len(argv) < 1:
         argv = sys.argv[1:]
