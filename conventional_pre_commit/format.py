@@ -21,9 +21,12 @@ AUTOSQUASH_PREFIXES = [
 ]
 
 
-def r_types(types):
+def r_types(types, prefix):
     """Join types with pipe "|" to form regex ORs."""
-    return "|".join(types)
+    res = types
+    if prefix:
+        res = [prefixItem + " " + typeItem for typeItem in types for prefixItem in prefix]
+    return "|".join(res)
 
 
 def r_scope(optional=True):
@@ -70,7 +73,7 @@ def conventional_types(types=[]):
     return types
 
 
-def is_conventional(input, types=DEFAULT_TYPES, optional_scope=True):
+def is_conventional(input, types=DEFAULT_TYPES, prefix, optional_scope=True):
     """
     Returns True if input matches Conventional Commits formatting
     https://www.conventionalcommits.org
@@ -79,7 +82,7 @@ def is_conventional(input, types=DEFAULT_TYPES, optional_scope=True):
     """
     input = strip_comments(input)
     types = conventional_types(types)
-    pattern = f"^({r_types(types)}){r_scope(optional_scope)}{r_delim()}{r_subject()}{r_body()}"
+    pattern = f"^({r_types(types, prefix)}){r_scope(optional_scope)}{r_delim()}{r_subject()}{r_body()}"
     regex = re.compile(pattern, re.MULTILINE)
 
     result = regex.match(input)

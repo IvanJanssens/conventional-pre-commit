@@ -19,6 +19,7 @@ def main(argv=[]):
         prog="conventional-pre-commit", description="Check a git commit message for Conventional Commits formatting."
     )
     parser.add_argument("types", type=str, nargs="*", default=format.DEFAULT_TYPES, help="Optional list of types to support")
+    parser.add_argument("--prefix", dest="prefix", type=str, nargs="*", help="Optional list of prefixes")
     parser.add_argument("input", type=str, help="A file containing a git commit message")
     parser.add_argument(
         "--force-scope", action="store_false", default=True, dest="optional_scope", help="Force commit to have scope defined."
@@ -56,7 +57,7 @@ See {Colors.LBLUE}https://git-scm.com/docs/git-commit/#_discussion{Colors.RESTOR
         if format.has_autosquash_prefix(message):
             return RESULT_SUCCESS
 
-    if format.is_conventional(message, args.types, args.optional_scope):
+    if format.is_conventional(message, args.types, args.prefix, args.optional_scope):
         return RESULT_SUCCESS
     else:
         print(
