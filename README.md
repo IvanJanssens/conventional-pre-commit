@@ -26,7 +26,7 @@ repos:
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
-        args: []
+        args: ["PREFIX"]
 ```
 
 Install the `pre-commit` script:
@@ -134,6 +134,7 @@ usage: conventional-pre-commit [-h] [--force-scope] [--strict] [types ...] input
 Check a git commit message for Conventional Commits formatting.
 
 positional arguments:
+  prefix         Prefix added before all possible types
   types          Optional list of types to support
   input          A file containing a git commit message
 
@@ -152,7 +153,8 @@ repos:
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
-        args: [--strict, --force-scope, feat, fix, chore, test, custom]
+        args:
+          [--strict, --force-scope, "TC-[1-9]*", feat, fix, chore, test, custom]
 ```
 
 **NOTE:** when using as a pre-commit hook, `input` is supplied automatically (with the current commit's message).
