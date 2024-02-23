@@ -19,7 +19,6 @@ def main(argv=[]):
         prog="conventional-pre-commit", description="Check a git commit message for Conventional Commits formatting."
     )
     parser.add_argument("types", type=str, nargs="*", default=format.DEFAULT_TYPES, help="Optional list of types to support")
-    parser.add_argument("--prefix", type=str, nargs="*", help="Optional list of prefixes")
     parser.add_argument("input", type=str, help="A file containing a git commit message")
     parser.add_argument(
         "--force-scope", action="store_false", default=True, dest="optional_scope", help="Force commit to have scope defined."
@@ -29,6 +28,7 @@ def main(argv=[]):
         action="store_true",
         help="Force commit to strictly follow Conventional Commits formatting. Disallows fixup! style commits.",
     )
+    parser.add_argument("--prefix", type=str, nargs="*", help="Optional list of prefixes")
 
     if len(argv) < 1:
         argv = sys.argv[1:]
@@ -60,8 +60,8 @@ See {Colors.LBLUE}https://git-scm.com/docs/git-commit/#_discussion{Colors.RESTOR
     if format.is_conventional(message, args.prefix, args.types, args.optional_scope):
         return RESULT_SUCCESS
     else:
-        print({" ".join(args.prefix)})
-        print({" ".join(args.types)})
+        print(args.prefix)
+        print(args.types)
         print({" ".join(format.conventional_types(args.prefix, args.types))})
         print(
             f"""
